@@ -1,14 +1,5 @@
-# HTSTEM's Discord Bots
-
-## HTSTEM-Bote
-Script file: `htstem_bote_wrapper.py`
-Arguments: `--testing/-t` Switches out all the discord IDs to ones for testing. This should not be used for running the bot
-Requirements: `feedparser`, `discord.py`
-Files required: `bot-token.txt` (will use first line as token and ignore all other lines)
-Notes: Uses `videoURLS.txt` in the same directory as the script. This is automatically created by the script when not detected.
-
-## Joinbot
-Script file: `logbot.py`
+# Joinbot
+Script file: `joinbot.py`
 Arguments: `None`
 Requirements: `discord.py`
 Files required: `bot-token.txt` (will use first and second line as tokens and ignore all other lines)
