@@ -156,7 +156,7 @@ def message_top(botnum, sid, number_of_users):
     return topusers
 
 
-class Bot:
+class JoinBot:
     def __init__(self, token, botnum):
         self.client = discord.Client()
         self.botnum = botnum
@@ -603,8 +603,8 @@ class Bot:
             elif (before.avatar_url != after.avatar_url) and (
                     before.server.id == HTC_ID or before.server.id == HTSTEM_ID):
                 time_now = datetime.datetime.utcnow()
-                print("[%s - Bot #%d] %s#%s (%s) changed their avatar from %s to %s" % (
-                    time_now.strftime("%m/%d - %H:%M:%S"), self.botnum, after.name, after.discriminator,
+                print("[%s - Bot #%d] %s (%s) changed their avatar from %s to %s" % (
+                    time_now.strftime("%m/%d - %H:%M:%S"), self.botnum, str(after),
                     after.id, before.avatar_url, after.avatar_url))
 
                 log_channel = None
@@ -624,14 +624,8 @@ class Bot:
                 else:
                     log_channel = self.client.get_channel("305337565513515008")
 
-                discrim = str(after.discriminator).zfill(4)
-
-                if len(discrim) == 0:
-                    discrim = " [Something has gone horribly wrong and the user doesn't have a discriminator. " + \
-                              "Please inform Noahkiq of this, thanks!]"
-
-                msg = "<:bookFace:310922953791504384> User **%s#%s** changed their avatar from %s to %s (%s)" % (
-                    after.name, discrim, before.avatar_url, after.avatar_url, after.mention
+                msg = "<:bookFace:310922953791504384> User **%s** changed their avatar from %s to %s (%s)" % (
+                    str(after.name), before.avatar_url, after.avatar_url, after.mention
                 )
 
                 try:
@@ -649,5 +643,5 @@ class Bot:
             self.client.run(token)
 
 
-Bot(open("bot-token.txt").read().split("\n")[0], 1)
-Bot(open("bot-token.txt").read().split("\n")[1], 2)
+JoinBot(open("bot-token.txt").read().split("\n")[0], 1)
+JoinBot(open("bot-token.txt").read().split("\n")[1], 2)
