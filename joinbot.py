@@ -145,9 +145,10 @@ class JoinBot(discord.Client):
     async def on_member_ban(self, guild, member):
         self.bannedusers[guild.id] = member.id        
         
-        event = await guild.audit_logs(action=discord.AuditLogAction.ban)
-        
+        event = await guild.audit_logs(action=discord.AuditLogAction.ban, limit=1).flatten()
+        event = event[0]
         self.log.info(f'A user was banned from {guild.name}: {member} ({member.id})')
+        reason = event.reason
         self.log.info(f'Reason: {reason}')
         
         msg = f':hammer: {member.mention} (`{member}`) was banned from the server. Reason: {reason}'
