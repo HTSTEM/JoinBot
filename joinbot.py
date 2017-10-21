@@ -1,6 +1,7 @@
 import datetime
 import asyncio
 import logging
+import traceback
 
 import discord
 
@@ -24,8 +25,12 @@ BACKUPS = {
     GUILDS['HTC']:    303374467336241152,
     GUILDS['HTSTEM']: 303374407420608513
 }
+AVATARLOGS = {
+    GUILDS['HTC']: 305337536157450240,
+    GUILDS['HTSTEM']: 305337565513515008
+}
 OWNER_ID = 140564059417346049
-
+'''
 ## TESTING IDS
 GUILDS = {
     'HTC':    290573725366091787
@@ -38,7 +43,7 @@ BACKUPS = {
 }
 OWNER_ID = 161508165672763392
 ## END TESTING SECTION
-
+'''
 
 
 PREFIX = "!"
@@ -54,22 +59,26 @@ class JoinBot(discord.Client):
         
         self.bannedusers = {}
     
-    async def broadcast_message(self, msg, guild):    
+    async def broadcast_message(self, msg, guild, avatar=False):
         log_channel = None
         backup_channel = None
-        
-        if guild.id in JOINLOGS:
-            log_channel = self.get_channel(JOINLOGS[guild.id])
-        if guild.id in BACKUPS:
-            backup_channel = self.get_channel(BACKUPS[guild.id])
-        
+        if avatar:
+            if guild.id in AVATARLOGS:
+                log_channel = self.get_channel(AVATARLOGS[guild.id])
+
+        else:
+            if guild.id in JOINLOGS:
+                log_channel = self.get_channel(JOINLOGS[guild.id])
+            if guild.id in BACKUPS:
+                backup_channel = self.get_channel(BACKUPS[guild.id])
+
         if log_channel is not None:
             try:
                 await log_channel.send(msg)
             except Exception:
                 self.log.error('An issue occured while trying to send to a joinlog.')
                 traceback.print_exc()
-        
+
         if backup_channel is not None:
             try:
                 await backup_channel.send(msg)
@@ -172,7 +181,7 @@ class JoinBot(discord.Client):
                     
                 if after in guild.members:  
                     msg = f':frame_photo: User **{before}** changed their avatar from {before.avatar_url} ..'
-                    await self.broadcast_message(msg, guild)
+                    await self.broadcast_message(msg, guild, avatar=True)
                     
                     msg = f'.. to {after.avatar_url} ({before.mention})'
                     await self.broadcast_message(msg, guild)    
