@@ -184,7 +184,7 @@ class JoinBot(discord.Client):
                     await self.broadcast_message(msg, guild, avatar=True)
                     
                     msg = f'.. to {after.avatar_url} ({before.mention})'
-                    await self.broadcast_message(msg, guild)    
+                    await self.broadcast_message(msg, guild, avatar=True)
 
 if __name__ == '__main__':
     bot = JoinBot()
